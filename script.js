@@ -40,3 +40,41 @@ toggleBtn.addEventListener('click', () => {
   toggleBtn.textContent = isLight ? '☀️' : '🌙';
   localStorage.setItem('theme', isLight ? 'light' : 'dark');
 });
+
+// bottom to top
+window.addEventListener("scroll", () => {
+  const backToTopBtn = document.getElementById("backToTopBtn");
+  if (window.scrollY > 200) {
+    backToTopBtn.style.opacity = "1";
+    backToTopBtn.style.pointerEvents = "auto";
+  } else {
+    backToTopBtn.style.opacity = "0";
+    backToTopBtn.style.pointerEvents = "none";
+  }
+});
+
+document.getElementById("backToTopBtn").addEventListener("click", function (e) {
+  e.preventDefault();
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
+
+// Section animation on scroll (reusable)
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
+    } else {
+      entry.target.classList.remove("visible"); // allow re-animation
+    }
+  });
+}, {
+  threshold: 0.15,
+});
+
+document.querySelectorAll('.section-animate').forEach(section => {
+  observer.observe(section);
+});
+
